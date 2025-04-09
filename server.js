@@ -1,8 +1,9 @@
-import app from './server.js';
+import express from 'express'
 
-const PORT = process.env.PORT || 3001;
+const app = express()
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`API server running on port ${PORT}!`);
-});
+app.get('/', (req, res) => {
+  res.send('Hello World')
+})
+
+app.listen(3000)

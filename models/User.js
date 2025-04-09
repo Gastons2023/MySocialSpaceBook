@@ -1,70 +1,47 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-// Schema for Reaction (subdocument)
-const reactionSchema = new Schema(
+// Schema for User
+const userSchema = new Schema(
   {
-    reactionId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    reactionBody: {
-      type: String,
-      required: true,
-      maxlength: 280,
-    },
     username: {
       type: String,
+      unique: true,
       required: true,
+      trim: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: (timestamp) => new Date(timestamp).toLocaleString(),
-    },
-  },
-  {
-    toJSON: {
-      getters: true,
-    },
-    id: false,
-  }
-);
-
-// Schema for Thought
-const thoughtSchema = new Schema(
-  {
-    thoughtText: {
+    email: {
       type: String,
       required: true,
-      minlength: 1,
-      maxlength: 280,
+      unique: true,
+      match: [/.+@.+\..+/, 'Must match a valid email address'],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: (timestamp) => new Date(timestamp).toLocaleString(),
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    reactions: [reactionSchema],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought',
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: {
       virtuals: true,
-      getters: true,
     },
     id: false,
   }
 );
 
-// Virtual to get the reaction count
-thoughtSchema.virtual('reactionCount').get(function () {
-  return this.reactions.length;
+// Virtual to get the friend count
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
 });
 
-// Create the Thought model
-const Thought = model('Thought', thoughtSchema);
+// Create the User model
+const User = model('User', userSchema);
 
-export default Thought;
+export default User;
