@@ -64,4 +64,4 @@ DELETE /api/thoughts/:thoughtId/reactions/:reactionId — Remove a reaction
 
 ## Demo
  Walk Through Video Link
-https://drive.google.com/file/d/1MOBgOtSQKZU6_i8MGjv0j7LGjE9O77F1/view?usp=sharing
+https://drive.google.com/file/d/1sDpZzeQNRAZJEcDSsIO51DXKyh6aJNu1/view?usp=sharing
